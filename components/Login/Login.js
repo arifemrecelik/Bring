@@ -3,16 +3,28 @@ import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
 import { StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 
+state = {
+    email: '',
+    password: '',
+    authenticating: false
+}
+
+
+
+onPressSignIn = () => {
+    this.setState({
+        authenticating: true,
+    });
+};
+
 export default class Login extends React.Component {
     render() {
-        //const { navigate } = this.props.navigation;
-        //const { navigate } = this.props.navigation;
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <Image source={require('../../images/logo.png')}/>
             <TextInput underlineColorAndroid='transparent' placeholder="username or e-mail"  style={styles.input}/>
             <TextInput underlineColorAndroid='transparent' placeholder="password" secureTextEntry style={styles.input}/>
-            <TouchableOpacity onPress={() => navigate('CreateAccount')} style={styles.loginButton}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateAccount')} style={styles.loginButton}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             </KeyboardAvoidingView>
@@ -47,15 +59,6 @@ export const App = StackNavigator({
     Login : { screen: Login },
     CreateAccount: { screen: CreateAccount },
 });
-
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyAkcVp-z-1vm9cEM4d5jKciH63aL_ByNtw",
-    authDomain: "bring-26.firebaseapp.com",
-    databaseURL: "https://bring-26.firebaseio.com",
-    storageBucket: "bring-26.appspot.com"
-};
-const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const styles = StyleSheet.create({
     container: {

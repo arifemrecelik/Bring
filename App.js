@@ -1,23 +1,36 @@
 import React from 'react';
 import { StyleSheet, Text, View, Navigator } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Login from './components/Login/Login'
-import CreateAccount from './components/Login/CreateAccount'
+import Login from './components/Login/Login';
+import CreateAccount from './components/Login/CreateAccount';
+import * as firebase from 'firebase';
 
-const SimpleApp = StackNavigator({
-  Login: { screen: Login },
-  CreateAccount: { screen: CreateAccount}
+const RootNavigator = StackNavigator({
+  Login: {
+      screen: Login
+  },
+  CreateAccount: {
+      screen: CreateAccount
+  }
 });
 
 export default class App extends React.Component {
+    componentWillMount() {
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkcVp-z-1vm9cEM4d5jKciH63aL_ByNtw",
+            authDomain: "bring-26.firebaseapp.com"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+    }
+    
     render() {
         return (
-            <Login />
+            <RootNavigator />
         );
     }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
