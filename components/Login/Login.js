@@ -1,7 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
-import { StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 
 state = {
     email: '',
@@ -12,10 +12,19 @@ state = {
 
 
 onPressSignIn = () => {
-    this.setState({
-        authenticating: true,
-    });
+
+    alert("Yes");
 };
+
+renderCurrentState = () => {
+    if(this.state.authenticating) {
+        alert("It worked");
+    }
+}
+
+login = () => {
+    this.props.navigation.navigate('CreateAccount');
+}
 
 export default class Login extends React.Component {
     render() {
@@ -24,16 +33,24 @@ export default class Login extends React.Component {
             <Image source={require('../../images/logo.png')}/>
             <TextInput underlineColorAndroid='transparent' placeholder="username or e-mail"  style={styles.input}/>
             <TextInput underlineColorAndroid='transparent' placeholder="password" secureTextEntry style={styles.input}/>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateAccount')} style={styles.loginButton}>
+
+            <TouchableOpacity onPress={() => this.login()} style={styles.loginButton}>
                 <Text style={styles.loginText}>LOGIN</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={alert("It worked")} style={styles.loginButton}>
+                <Text style={styles.loginText}>INDICATOR</Text>
             </TouchableOpacity>
             </KeyboardAvoidingView>
         );
     }
 
-    login = () => {
-        navigate('CreateAccount');
-    }
+
+
+    onPressSignIn = () => {
+
+        alert("Yes");
+    };
 }
 
 export class CreateAccount extends React.Component {
