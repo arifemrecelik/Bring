@@ -3,16 +3,17 @@ import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
 import { ActivityIndicator, StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 
-state = {
-    email: '',
-    password: '',
-    authenticating: false
+signUpUser = (email, password) => {
+    try {
+        firebase.auth().createUserWithEmailAndPassword(email, password);
+        alert("İşlem tamam!");
+    } catch(error) {
+        console.log(error.toString());
+        console.log(email);
+    }
 }
 
-
-
 onPressSignIn = () => {
-
     alert("Yes");
 };
 
@@ -23,24 +24,42 @@ renderCurrentState = () => {
 }
 
 login = () => {
-    this.props.navigation.navigate('CreateAccount');
+    alert("Test");
 }
 
 export default class Login extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = ({
+            email: '',
+            password: ''
+        })
+    }
+
     render() {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <Image source={require('../../images/logo.png')}/>
-            <TextInput underlineColorAndroid='transparent' placeholder="username or e-mail"  style={styles.input}/>
-            <TextInput underlineColorAndroid='transparent' placeholder="password" secureTextEntry style={styles.input}/>
+            <TextInput underlineColorAndroid='transparent'
+                placeholder="username or e-mail"
+                style={styles.input}
+                onChangeText={(text) => this.setState({email: text})}
+            />
+            <TextInput
+                underlineColorAndroid='transparent'
+                placeholder="password"
+                secureTextEntry style={styles.input}
+                onChangeText={(password) => this.setState({password})}
+            />
 
-            <TouchableOpacity onPress={() => this.login()} style={styles.loginButton}>
-                <Text style={styles.loginText}>LOGIN</Text>
+        <TouchableOpacity onPress={() => signUpUser(this.state.email, this.state.password)} style={styles.loginButton}>
+                <Text style={styles.loginText}>SIGN UP</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={alert("It worked")} style={styles.loginButton}>
+            {/*<TouchableOpacity onPress={alert("It worked")} style={styles.loginButton}>
                 <Text style={styles.loginText}>INDICATOR</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             </KeyboardAvoidingView>
         );
     }
