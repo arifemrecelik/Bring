@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Navigator } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Login from './components/Login/Login';
 import CreateAccount from './components/Login/CreateAccount';
+import Profile from './components/Login/Profile';
+
 import * as firebase from 'firebase';
 
 const RootNavigator = StackNavigator({
@@ -11,6 +13,9 @@ const RootNavigator = StackNavigator({
   },
   CreateAccount: {
       screen: CreateAccount
+  },
+  Profile: {
+      screen: Profile
   }
 });
 
@@ -24,7 +29,7 @@ export default class App extends React.Component {
 
         firebase.initializeApp(firebaseConfig);
     }
-    
+
     render() {
         return (
             <RootNavigator />

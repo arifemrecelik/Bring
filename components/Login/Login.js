@@ -3,30 +3,6 @@ import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
 import { ActivityIndicator, StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 
-signUpUser = (email, password) => {
-    try {
-        firebase.auth().createUserWithEmailAndPassword(email, password);
-        alert("İşlem tamam!");
-    } catch(error) {
-        console.log(error.toString());
-        console.log(email);
-    }
-}
-
-onPressSignIn = () => {
-    alert("Yes");
-};
-
-renderCurrentState = () => {
-    if(this.state.authenticating) {
-        alert("It worked");
-    }
-}
-
-login = () => {
-    alert("Test");
-}
-
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -57,44 +33,39 @@ export default class Login extends React.Component {
                 <Text style={styles.loginText}>SIGN UP</Text>
             </TouchableOpacity>
 
-            {/*<TouchableOpacity onPress={alert("It worked")} style={styles.loginButton}>
-                <Text style={styles.loginText}>INDICATOR</Text>
-            </TouchableOpacity>*/}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')} style={styles.loginButton}>
+                <Text style={styles.loginText}>LOGIN</Text>
+            </TouchableOpacity>
             </KeyboardAvoidingView>
         );
     }
-
-
-
-    onPressSignIn = () => {
-
-        alert("Yes");
-    };
 }
 
-export class CreateAccount extends React.Component {
-  render() {
-    return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <Image source={require('../../images/logo.png')}/>
-          <TextInput underlineColorAndroid='transparent' placeholder="username or e-mail"  style={styles.input}/>
-          <TextInput underlineColorAndroid='transparent' placeholder="password" secureTextEntry style={styles.input}/>
-          <TouchableOpacity onPress={this.login} style={styles.loginButton}>
-            <Text style={styles.loginText}>LOGIN</Text>
-          </TouchableOpacity>
-      </KeyboardAvoidingView>
-    );
-  }
+signUpUser = (email, password) => {
+    try {
+        if(this.state.password.length < 6) {
+            alert("Please enter at least 6 characters");
+            return;
+        }
 
-  login = () => {
-    alert(firebase);
-  }
+        firebase.auth().createUserWithEmailAndPassword(email, password);
+        alert("İşlem tamam!");
+    } catch(error) {
+        console.log(error.toString());
+        console.log(email);
+    }
 }
 
-export const App = StackNavigator({
-    Login : { screen: Login },
-    CreateAccount: { screen: CreateAccount },
-});
+loginUser = (email, password) => {
+    try {
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
+            console.log(user);
+            this.props.navigation.navigate('Profile');
+        });
+    } catch(error) {
+        console.log(error.toString());
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -115,7 +86,8 @@ const styles = StyleSheet.create({
         height: 60,
         width: 300,
         paddingVertical: 15,
-        backgroundColor: '#c0392b'
+        backgroundColor: '#c0392b',
+        marginBottom: 10
     },
     loginText: {
         alignItems: 'center',
