@@ -8,16 +8,18 @@ import Profile from './components/Login/Profile';
 import * as firebase from 'firebase';
 
 const RootNavigator = StackNavigator({
-  Login: {
-      screen: Login
-  },
-  CreateAccount: {
-      screen: CreateAccount
-  },
-  Profile: {
-      screen: Profile
-  }
-});
+    Login: {
+        screen: Login
+    },
+    CreateAccount: {
+        screen: CreateAccount
+    },
+    Profile: {
+        screen: Profile
+    }    
+    });
+
+
 
 export default class App extends React.Component {
     componentWillMount() {

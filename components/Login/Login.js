@@ -13,6 +13,56 @@ export default class Login extends React.Component {
         })
     }
 
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user != null) {
+                console.log(user);
+            }
+        })
+    }
+
+    signUpUser = (email, password) => {
+        try {
+            if(this.state.password.length < 6) {
+                alert("Please enter at least 6 characters");
+                return;
+            }
+
+            firebase.auth().createUserWithEmailAndPassword(email, password);
+            alert("İşlem tamam!");
+        } catch(error) {
+            console.log(error.toString());
+            console.log(email);
+        }
+    }
+
+    loginUser = (email, password) => {
+        try {
+            firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
+                console.log(user);
+                this.props.navigation.navigate('Profile');
+            });
+        } catch(error) {
+            console.log(error.toString());
+        }
+    }
+
+    async loginWithFacebook()  {
+      const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync
+      {'571652216560341',  { permissions:['public_profile'] }}
+
+      if (type == 'success') {
+          const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+          firebase.auth().signInWithCredential(credential).catch((error) => {
+              console.log(error);
+          })
+      }
+      else {
+          console.log(type);
+      }
+    }
+
     render() {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -29,8 +79,12 @@ export default class Login extends React.Component {
                 onChangeText={(password) => this.setState({password})}
             />
 
-        <TouchableOpacity onPress={() => signUpUser(this.state.email, this.state.password)} style={styles.loginButton}>
+            <TouchableOpacity onPress={() => signUpUser(this.state.email, this.state.password)} style={styles.loginButton}>
                 <Text style={styles.loginText}>SIGN UP</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButton}>
+                <Text onPress={() => this.loginWithFacebook()} style={styles.loginText}>FACEBOOK</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')} style={styles.loginButton}>
@@ -41,31 +95,8 @@ export default class Login extends React.Component {
     }
 }
 
-signUpUser = (email, password) => {
-    try {
-        if(this.state.password.length < 6) {
-            alert("Please enter at least 6 characters");
-            return;
-        }
 
-        firebase.auth().createUserWithEmailAndPassword(email, password);
-        alert("İşlem tamam!");
-    } catch(error) {
-        console.log(error.toString());
-        console.log(email);
-    }
-}
 
-loginUser = (email, password) => {
-    try {
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-            console.log(user);
-            this.props.navigation.navigate('Profile');
-        });
-    } catch(error) {
-        console.log(error.toString());
-    }
-}
 
 const styles = StyleSheet.create({
     container: {
