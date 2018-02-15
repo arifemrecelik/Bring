@@ -16,7 +16,7 @@ const RootNavigator = StackNavigator({
     },
     Profile: {
         screen: Profile
-    }    
+    }
     });
 
 
@@ -26,7 +26,10 @@ export default class App extends React.Component {
         // Initialize Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAkcVp-z-1vm9cEM4d5jKciH63aL_ByNtw",
-            authDomain: "bring-26.firebaseapp.com"
+            authDomain: "bring-26.firebaseapp.com",
+            databaseURL: "https://bring-26.firebaseio.com",
+            projectId: "bring-26",
+            storageBucket: "bring-26.appspot.com"
         };
 
         firebase.initializeApp(firebaseConfig);

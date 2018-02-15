@@ -2,6 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
 import { ActivityIndicator, StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import FBSDK, { LoginManager } from 'react-native-fbsdk';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -55,12 +56,18 @@ export default class Login extends React.Component {
           const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
           firebase.auth().signInWithCredential(credential).catch((error) => {
+              console.log("ERROR\n");
               console.log(error);
           })
       }
       else {
+          console.log("TYPE\n");
           console.log(type);
       }
+    }
+
+    fbLogin = () => {
+
     }
 
     render() {
