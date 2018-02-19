@@ -9,15 +9,17 @@ import * as firebase from 'firebase';
 
 const RootNavigator = StackNavigator({
     Login: {
-        screen: Login
+        screen: Login,
+        navigationOptions: ({ navigation }) => ({ header: null })
     },
     CreateAccount: {
         screen: CreateAccount
     },
     Profile: {
-        screen: Profile
-    }
-    });
+        screen: Profile,
+        navigationOptions: ({ navigation }) => ({ header: null })
+    },
+});
 
 
 
@@ -35,8 +37,9 @@ export default class App extends React.Component {
         firebase.initializeApp(firebaseConfig);
     }
 
+
     render() {
-        return (
+        return (            
             <RootNavigator />
         );
     }
